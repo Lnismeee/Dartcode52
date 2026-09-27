@@ -439,6 +439,68 @@
   }
 }
 
+/* ===== Mũi tên chỉ vào nút Mở Thiệp ===== */
+.cover__cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover__arrow {
+  position: absolute;
+  /* Neo vao mep trai nut, day han ra ngoai de khong de len chu */
+  right: calc(100% + 4px);
+  bottom: -6px;
+  width: 84px;
+  color: var(--white);
+  pointer-events: none;
+  filter: drop-shadow(0 2px 5px rgba(8, 24, 40, 0.7));
+  animation: arrow-nudge 1.5s ease-in-out infinite;
+}
+
+/* Nhích tới lui theo hướng mũi tên đang chỉ, mắt bị hút theo chuyển động */
+@keyframes arrow-nudge {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(7px, -5px);
+  }
+}
+
+/* Vòng sáng lan ra từ nút, nhắc thêm một lần nữa rằng đây là chỗ bấm */
+.cover__button--onphoto::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  animation: cta-ripple 2.2s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes cta-ripple {
+  0% {
+    transform: scale(0.96);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.14);
+    opacity: 0;
+  }
+}
+
+/* Màn hình hẹp: thu nhỏ mũi tên cho khỏi tràn ra ngoài mép ảnh */
+@media (max-width: 420px) {
+  .cover__arrow {
+    width: 58px;
+    right: calc(100% - 2px);
+    bottom: -2px;
+  }
+}
+
 /* ===== Bong bóng ===== */
 .bubbles {
   position: absolute;
@@ -751,7 +813,7 @@
   position: relative;
   text-align: center;
   padding: 88px 24px 104px;
-  background-image: url("./assets/anh/anh-header/TC_04120.JPG");
+  background-image: url("./assets/anh/anh-header/hero.jpg");
   background-size: cover;
   background-position: center;
   color: var(--white);

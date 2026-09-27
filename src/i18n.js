@@ -9,7 +9,7 @@ export const LANGUAGES = [
 export const CONTENT = {
   vi: {
     htmlTitle: "Thiệp Cưới - Lã Ngọc & Lan Hương",
-    dateLabel: "31 . 10 . 2026",
+    dateLabel: "17 . 10 . 2026",
     cover: {
       eyebrow: "Trân trọng kính mời",
       button: "Mở Thiệp",
@@ -47,9 +47,9 @@ export const CONTENT = {
       events: [
         {
           title: "Lễ Vu Quy",
-          time: "Thứ Bảy, 31/10/2026 - 15:00",
+          time: "Thứ Bảy, 17/10/2026 - 16:00",
           venue:
-            "Tư gia nhà trai - Thôn Liễu Trì, Xã Quang Minh, Thành phố Hà Nội",
+            "Tư gia nhà gái - Xóm Cầu Gỗ, Xã Phú Bình, Thành phố Thái Nguyên",
         },
       ],
       mapTitle: "Địa chỉ dự tiệc",

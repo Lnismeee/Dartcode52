@@ -110,18 +110,34 @@ const ENVELOPE_PHOTOS = (
 const WEDDING_INFO = {
   groom: "Lã Ngọc",
   bride: "Lan Hương",
-  weddingDate: new Date("2026-10-31T15:00:00"),
+  weddingDate: new Date("2026-10-17T16:00:00"),
   photos: ANH_ALBUM.map((src) => ({ src })),
 };
 
-// Link bản đồ dùng chung cho mọi ngôn ngữ, ghép theo thứ tự với events trong i18n
+/* ĐỊA ĐIỂM TỔ CHỨC
+
+   Chỉ cần dán MỘT link Google Maps vào đây. Mở Google Maps, tìm địa điểm,
+   bấm Chia sẻ rồi sao chép đường liên kết.
+
+   Toạ độ cho bản đồ nhúng được tách tự động từ chính link đó, nên không còn
+   cảnh sửa link mà quên sửa toạ độ - bản đồ một nơi, nút bấm một nẻo. */
 const EVENT_MAPS = [
   {
-    coords: "21.1717125,105.7320469",
     mapUrl:
-      "https://www.google.com/maps/place/Ch%C3%B9a+Li%E1%BB%85u+Tr%C3%AC/@21.1728814,105.7290236,963m/data=!3m1!1e3!4m6!3m5!1s0x3134fef8dccce97b:0x505d53558f912369!8m2!3d21.1717125!4d105.7320469!16s%2Fg%2F11gz9hsp2?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D",
+      "https://www.google.com/maps/place/C%E1%BA%A7u+B%E1%BA%A3o+L%C3%BD/@21.4888143,105.9427041,961m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3135239fa5fc0c83:0x4bac19f235b6fd98!8m2!3d21.4888143!4d105.945279!16s%2Fg%2F11h5tyk5nn?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D",
   },
 ];
+
+/* Google nhúng toạ độ thật của địa điểm vào link dưới dạng  !3d<vĩ độ>!4d<kinh độ>.
+   Nếu không tìm thấy thì lấy tạm phần sau dấu @ - đó là tâm khung nhìn,
+   lệch một chút so với địa điểm nhưng vẫn đúng khu vực. */
+const layToaDo = (url) => {
+  if (!url) return null;
+  const chinhXac = url.match(/!3d(-?[\d.]+)!4d(-?[\d.]+)/);
+  if (chinhXac) return `${chinhXac[1]},${chinhXac[2]}`;
+  const tamKhung = url.match(/@(-?[\d.]+),(-?[\d.]+)/);
+  return tamKhung ? `${tamKhung[1]},${tamKhung[2]}` : null;
+};
 
 function App() {
   // 'cover' -> 'invitation'
@@ -143,7 +159,7 @@ function App() {
     ...event,
     mapUrl: EVENT_MAPS[i]?.mapUrl,
     mapEmbedUrl: EVENT_MAPS[i]
-      ? `https://www.google.com/maps?q=${EVENT_MAPS[i].coords}&z=16&hl=${lang}&output=embed`
+      ? `https://www.google.com/maps?q=${layToaDo(EVENT_MAPS[i].mapUrl)}&z=16&hl=${lang}&output=embed`
       : undefined,
   }));
 

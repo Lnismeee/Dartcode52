@@ -30,13 +30,39 @@ function Cover({ groom, bride, dateLabel, text, photo, onOpen }) {
 
             <p className="cover__onphoto-date">{dateLabel}</p>
 
-            <button
-              type="button"
-              className="cover__button cover__button--onphoto"
-              onClick={onOpen}
-            >
-              {text.button}
-            </button>
+            <div className="cover__cta">
+              {/* Mui ten cong chi vao nut. Dat ben trai vi nut nam sat day anh,
+                  khong con cho phia duoi. */}
+              <svg
+                className="cover__arrow"
+                viewBox="0 0 96 70"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 64 C18 50 34 34 62 22"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeDasharray="0 1 0"
+                />
+                <path
+                  d="M62 22 L46 22 M62 22 L60 38"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+
+              <button
+                type="button"
+                className="cover__button cover__button--onphoto"
+                onClick={onOpen}
+              >
+                {text.button}
+              </button>
+            </div>
           </div>
         </div>
       </div>
