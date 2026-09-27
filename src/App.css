@@ -1,0 +1,2255 @@
+﻿.app {
+  min-height: 100svh;
+}
+
+/* ===== Nút chuyển ngôn ngữ ===== */
+.lang {
+  position: fixed;
+  top: 22px;
+  left: 22px;
+  z-index: 60;
+  display: flex;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 12px 30px -14px rgba(34, 64, 92, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Khối nền trượt sang ô đang chọn */
+.lang__thumb {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 48px;
+  height: 34px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue) 100%);
+  box-shadow: 0 6px 14px -6px rgba(34, 64, 92, 0.75);
+  transition: transform 0.34s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lang__btn {
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--blue-deep);
+  cursor: pointer;
+  border-radius: 999px;
+  transition: color 0.28s ease;
+}
+
+.lang__btn:hover:not(.is-active) {
+  color: var(--ink);
+}
+
+.lang__btn:focus-visible {
+  outline: 2px solid var(--blue-deep);
+  outline-offset: 2px;
+}
+
+.lang__btn.is-active {
+  color: var(--white);
+}
+
+/* ===== Nút nhạc nền ===== */
+.music {
+  position: fixed;
+  left: 22px;
+  bottom: 22px;
+  z-index: 60;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 12px 30px -14px rgba(34, 64, 92, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.music:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px -14px rgba(34, 64, 92, 0.65);
+}
+
+.music:focus-visible {
+  outline: 2px solid var(--blue-deep);
+  outline-offset: 3px;
+}
+
+/* Vòng sáng lan ra khi đang phát */
+.music.is-playing::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--blue);
+  animation: music-ripple 2.2s ease-out infinite;
+}
+
+@keyframes music-ripple {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+.music__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+}
+
+.music__bars span {
+  width: 3px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--blue-deep);
+  transition: height 0.25s ease;
+}
+
+/* Đang tắt thì bốn vạch nằm im so le, đang phát thì nhún theo nhịp */
+.music__bars span:nth-child(1) {
+  height: 7px;
+}
+.music__bars span:nth-child(2) {
+  height: 13px;
+}
+.music__bars span:nth-child(3) {
+  height: 9px;
+}
+.music__bars span:nth-child(4) {
+  height: 15px;
+}
+
+.music.is-playing .music__bars span {
+  animation: music-bar 0.9s ease-in-out infinite;
+}
+
+.music.is-playing .music__bars span:nth-child(2) {
+  animation-delay: -0.25s;
+}
+.music.is-playing .music__bars span:nth-child(3) {
+  animation-delay: -0.5s;
+}
+.music.is-playing .music__bars span:nth-child(4) {
+  animation-delay: -0.75s;
+}
+
+@keyframes music-bar {
+  0%,
+  100% {
+    height: 5px;
+  }
+  50% {
+    height: 17px;
+  }
+}
+
+/* ===== Cover ===== */
+.cover {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 24px;
+  background: radial-gradient(
+    130% 95% at 50% 0%,
+    var(--white) 0%,
+    var(--blue-mist) 30%,
+    var(--blue-pale) 62%,
+    var(--blue-soft) 100%
+  );
+}
+
+/* ===== Bìa kiểu ảnh tràn màn hình ===== */
+.cover--photo {
+  align-items: stretch;
+  padding: 0;
+  background: var(--ink);
+}
+
+/* Điện thoại không cần bong bóng vì ảnh che kín màn hình */
+.cover--photo .bubbles {
+  display: none;
+}
+
+.cover__photo-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.cover__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Máy tính: màn hình nằm ngang mà ảnh cưới dọc, để tràn thì cắt mất đầu và chân.
+   Nên thu ảnh về khung dọc đặt giữa, xung quanh là nền xanh và bong bóng. */
+@media (min-width: 900px) {
+  .cover--photo {
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    background: radial-gradient(
+      130% 95% at 50% 0%,
+      var(--white) 0%,
+      var(--blue-mist) 30%,
+      var(--blue-pale) 62%,
+      var(--blue-soft) 100%
+    );
+  }
+
+  .cover--photo .bubbles {
+    display: block;
+  }
+
+  .cover__photo-card {
+    width: auto;
+    min-height: 0;
+    height: min(88svh, 800px);
+    aspect-ratio: 3 / 4;
+    border-radius: 12px;
+    border: 8px solid var(--white);
+    box-shadow: 0 34px 76px -32px rgba(34, 64, 92, 0.65);
+  }
+}
+
+/* Tối dần từ giữa xuống đáy, để chữ trắng đọc được trên mọi ảnh */
+.cover__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(34, 64, 92, 0.25) 0%,
+    rgba(34, 64, 92, 0) 28%,
+    rgba(34, 64, 92, 0.58) 62%,
+    rgba(34, 64, 92, 0.93) 100%
+  );
+}
+
+.cover__overlay {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+  padding: 72px 24px 54px;
+  /* Nen rieng bam theo khoi chu. Lop scrim phu ca anh duoc tinh theo chieu cao
+     anh, nen khi man hinh thap va rong thi chu roi vao vung con trong suot.
+     Mang nen nay luon nam ngay sau chu du khung cao hay thap. */
+  background: linear-gradient(
+    180deg,
+    rgba(18, 40, 60, 0) 0%,
+    rgba(18, 40, 60, 0.45) 38%,
+    rgba(18, 40, 60, 0.72) 70%,
+    rgba(18, 40, 60, 0.85) 100%
+  );
+  animation: cover-overlay-in 1s ease 0.15s both;
+}
+
+@keyframes cover-overlay-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rings-mark--onphoto {
+  width: 62px;
+  margin-bottom: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45));
+}
+
+.cover__onphoto-eyebrow {
+  font-size: 0.74rem;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.8),
+    0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.cover__onphoto-names {
+  margin-top: 10px;
+  /* Dung dung font chu viet tay nhu ten o ben trong thiep.
+     Font viet tay noi net nen KHONG duoc gian chu, se dut net. */
+  font-family: var(--font-script);
+  font-size: clamp(2.6rem, 9vw, 4rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--white);
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.75),
+    0 2px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* inline-block để tên xuống dòng nguyên cụm, không vỡ giữa tên */
+.cover__onphoto-name {
+  display: inline-block;
+}
+
+.cover__onphoto-amp {
+  display: inline-block;
+  margin: 0 8px;
+  opacity: 0.85;
+}
+
+.cover__onphoto-date {
+  margin-top: 12px;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 3.6vw, 1.4rem);
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em;
+  color: var(--white);
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.78),
+    0 2px 18px rgba(0, 0, 0, 0.6);
+}
+
+.cover__button--onphoto {
+  margin-top: 28px;
+  border-color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--white);
+}
+
+.cover__button--onphoto:hover {
+  background: var(--white);
+  color: var(--ink);
+}
+
+/* Hai quầng sáng mờ trôi chậm tạo chiều sâu cho nền */
+.cover::before,
+.cover::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.cover::before {
+  width: 520px;
+  height: 520px;
+  top: -150px;
+  left: -130px;
+  background: radial-gradient(
+    circle,
+    rgba(127, 176, 212, 0.55) 0%,
+    transparent 70%
+  );
+  animation: cover-drift 19s ease-in-out infinite alternate;
+}
+
+.cover::after {
+  width: 460px;
+  height: 460px;
+  bottom: -170px;
+  right: -130px;
+  background: radial-gradient(
+    circle,
+    rgba(185, 216, 238, 0.65) 0%,
+    transparent 70%
+  );
+  animation: cover-drift 25s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes cover-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(70px, 50px, 0) scale(1.18);
+  }
+}
+
+/* Man hinh thap (dien thoai xoay ngang): khoi chu thu nho lai,
+   neu khong no chiem het khung anh va ten bi cat mat dong dau. */
+@media (max-height: 560px) {
+  .cover__overlay {
+    padding: 34px 18px 22px;
+  }
+
+  .cover__onphoto-names {
+    font-size: clamp(1.5rem, 5vw, 2.1rem);
+  }
+
+  .cover__onphoto-date {
+    margin-top: 6px;
+    font-size: 0.95rem;
+  }
+
+  .rings-mark--onphoto {
+    display: none;
+  }
+
+  .cover__button--onphoto {
+    margin-top: 14px;
+    padding: 10px 26px;
+  }
+}
+
+/* ===== Bong bóng ===== */
+.bubbles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* Quãng đường bay mặc định - từng khu vực ghi đè bên dưới */
+  --rise: 112svh;
+}
+
+/* Bong bóng: ruột trong suốt, viền sáng, một chấm cao sáng lệch góc trên trái */
+/* Vien mau xanh chu khong phai trang - tren nen trang xanh cua thiep,
+   bong bong vien trang gan nhu tang hinh. */
+.bubbles span {
+  position: absolute;
+  bottom: -8%;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 30% 26%,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 255, 255, 0.55) 14%,
+      rgba(255, 255, 255, 0) 38%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.05) 48%,
+      rgba(127, 176, 212, 0.3) 82%,
+      rgba(61, 108, 148, 0.42) 100%
+    );
+  border: 1.5px solid rgba(110, 165, 205, 0.6);
+  box-shadow:
+    0 4px 14px -4px rgba(34, 64, 92, 0.3),
+    inset 0 0 22px rgba(255, 255, 255, 0.45);
+  opacity: 0;
+  animation-name: bubble-rise;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bubble-rise {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  35% {
+    transform: translate(26px, calc(var(--rise) * -0.29)) scale(0.92);
+  }
+  65% {
+    transform: translate(-18px, calc(var(--rise) * -0.59)) scale(1.04);
+  }
+  88% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(30px, calc(var(--rise) * -1)) scale(1.12);
+    opacity: 0;
+  }
+}
+
+/* Hero và album thấp hơn bìa nên quãng bay ngắn lại, bong bóng mờ hơn
+   để không lấn át chữ */
+/* MOT lop duy nhat cho ca trang. position fixed nen bong bong noi lien mach
+   theo khung nhin, khong bi cat khuc o ranh gioi giua cac phan. */
+.bubbles--global {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  --rise: 108svh;
+  opacity: 0.9;
+}
+
+/* Nen cua tung phan nam duoi lop bong bong, con chu va anh nam tren */
+.section > *:not(.bubbles):not(.ribbons),
+.hero > *:not(.bubbles):not(.hero__wave) {
+  position: relative;
+  z-index: 2;
+}
+
+.cover__frame {
+  position: relative;
+  z-index: 2;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  padding: 60px 36px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px) saturate(125%);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 24px 64px -22px rgba(34, 64, 92, 0.4),
+    0 0 0 1px rgba(169, 198, 219, 0.3);
+}
+
+/* Đường viền mảnh bên trong */
+.cover__frame::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(127, 176, 212, 0.45);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+/* Bốn góc trang trí */
+.cover__corner {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  pointer-events: none;
+}
+
+.cover__corner--tl {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--blue);
+  border-left: 2px solid var(--blue);
+  border-top-left-radius: 6px;
+}
+
+.cover__corner--tr {
+  top: -1px;
+  right: -1px;
+  border-top: 2px solid var(--blue);
+  border-right: 2px solid var(--blue);
+  border-top-right-radius: 6px;
+}
+
+.cover__corner--bl {
+  bottom: -1px;
+  left: -1px;
+  border-bottom: 2px solid var(--blue);
+  border-left: 2px solid var(--blue);
+  border-bottom-left-radius: 6px;
+}
+
+.cover__corner--br {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--blue);
+  border-right: 2px solid var(--blue);
+  border-bottom-right-radius: 6px;
+}
+
+.cover__eyebrow {
+  position: relative;
+  color: var(--blue-deep);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.cover__names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-script);
+  font-size: 4rem;
+  line-height: 1.12;
+  font-weight: 600;
+  /* Dải sáng giữa không được nhạt hơn mức này, nếu không chữ chìm vào nền */
+  background: linear-gradient(
+    100deg,
+    var(--ink) 0%,
+    var(--blue-deep) 28%,
+    #5f93bd 47%,
+    var(--blue-deep) 66%,
+    var(--ink) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: name-shimmer 7s ease-in-out infinite;
+}
+
+@keyframes name-shimmer {
+  0%,
+  100% {
+    background-position: 125% 0;
+  }
+  50% {
+    background-position: -25% 0;
+  }
+}
+
+.cover__name {
+  display: block;
+}
+
+.cover__amp {
+  display: block;
+  font-size: 0.62em;
+  line-height: 1;
+  margin: 2px 0 4px;
+}
+
+.cover__flourish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.cover__flourish-line {
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blue));
+}
+
+.cover__flourish-line:last-child {
+  background: linear-gradient(90deg, var(--blue), transparent);
+}
+
+.cover__flourish-gem {
+  color: var(--blue);
+  font-size: 0.6rem;
+  line-height: 1;
+}
+
+.cover__date {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.34em;
+  /* bù lại khoảng trống thừa bên phải do letter-spacing tạo ra, giữ chữ cân giữa */
+  text-indent: 0.34em;
+  margin-bottom: 32px;
+}
+
+.cover__button {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 14px 40px;
+  border: 1px solid var(--blue-deep);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  color: var(--blue-deep);
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.cover__button:hover {
+  background: var(--blue-deep);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px -12px rgba(34, 64, 92, 0.65);
+}
+
+/* Sóng trắng mềm dưới đáy bìa */
+.cover__waves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cover__waves::before,
+.cover__waves::after {
+  content: "";
+  position: absolute;
+  border-radius: 50% 50% 0 0;
+}
+
+.cover__waves::before {
+  left: -12%;
+  right: -12%;
+  bottom: -70px;
+  height: 170px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.cover__waves::after {
+  left: -22%;
+  right: -22%;
+  bottom: -90px;
+  height: 175px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+/* ===== Invitation page ===== */
+.invitation {
+  background: var(--blue-mist);
+  /* Hieu ung truot vao dung translateX, luc chua kich hoat thi khoi bi day
+     ra ngoai man hinh va sinh thanh cuon ngang. clip cat phan thua do ma
+     khong bien phan tu thanh vung cuon nhu hidden. */
+  overflow-x: clip;
+}
+
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 88px 24px 104px;
+  background-image: url("./assets/anh/anh-header/TC_04120.JPG");
+  background-size: cover;
+  background-position: center;
+  color: var(--white);
+  overflow: hidden;
+}
+
+/* Lop phu toi len anh nen, de chu trang doc duoc tren moi tam anh.
+   Dung ::before nen no nam duoi noi dung (noi dung da co z-index 2). */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 38, 58, 0.52) 0%,
+    rgba(16, 38, 58, 0.34) 42%,
+    rgba(16, 38, 58, 0.58) 100%
+  );
+}
+
+/* Ba vòng tròn đồng tâm sau tên - đối xứng, thở nhẹ */
+.hero__rings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero__ring {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transform: translate(-50%, -50%);
+  animation: ring-breathe 9s ease-in-out infinite;
+}
+
+.hero__ring--1 {
+  width: 340px;
+  height: 340px;
+}
+
+.hero__ring--2 {
+  width: 520px;
+  height: 520px;
+  border-color: rgba(255, 255, 255, 0.4);
+  animation-delay: -3s;
+}
+
+.hero__ring--3 {
+  width: 720px;
+  height: 720px;
+  border-color: rgba(255, 255, 255, 0.26);
+  animation-delay: -6s;
+}
+
+@keyframes ring-breathe {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.045);
+    opacity: 0.55;
+  }
+}
+
+/* Save the date + hai vạch hai bên */
+.hero__eyebrow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--white);
+  text-shadow:
+    0 1px 3px rgba(8, 24, 40, 0.8),
+    0 2px 14px rgba(8, 24, 40, 0.6);
+}
+
+.hero__eyebrow::before,
+.hero__eyebrow::after {
+  content: "";
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blue));
+}
+
+.hero__eyebrow::after {
+  background: linear-gradient(90deg, var(--blue), transparent);
+}
+
+.hero__names {
+  position: relative;
+  font-family: var(--font-script);
+  font-size: 3.8rem;
+  line-height: 1.3;
+  margin: 18px 0 0;
+  font-weight: 600;
+  /* Chu trang tren anh nen. Dai sang la mot vet trang tinh khiet hep chay qua
+     nen trang hoi mo - neu moi diem dung deu trang nhu nhau thi khong thay gi. */
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.86) 0%,
+    rgba(255, 255, 255, 0.86) 40%,
+    rgba(255, 255, 255, 1) 48%,
+    rgba(255, 255, 255, 1) 52%,
+    rgba(255, 255, 255, 0.86) 60%,
+    rgba(255, 255, 255, 0.86) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* drop-shadow bám theo hình chữ nên phát sáng được dù chữ đang trong suốt */
+  animation:
+    name-shimmer 4.5s ease-in-out infinite,
+    name-glow 3.6s ease-in-out infinite,
+    name-enter 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Vien toi bam theo hinh chu. Chu trang tren anh sang can vien toi moi ro,
+   quang sang trang nhu truoc se lam chu tan vao nen. */
+/* Vien toi LUON co de chu tach khoi anh, quang trang tho nhip chong len tren
+   tao cam giac chu phat sang. Thieu vien toi thi chu trang tan vao nen sang. */
+@keyframes name-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 2px 4px rgba(8, 24, 40, 0.8))
+      drop-shadow(0 0 20px rgba(8, 24, 40, 0.5))
+      drop-shadow(0 0 10px rgba(255, 255, 255, 0.25));
+  }
+  50% {
+    filter: drop-shadow(0 2px 4px rgba(8, 24, 40, 0.8))
+      drop-shadow(0 0 26px rgba(8, 24, 40, 0.55))
+      drop-shadow(0 0 26px rgba(255, 255, 255, 0.7));
+  }
+}
+
+/* inline-block để tên xuống dòng nguyên cụm, không vỡ giữa tên */
+.hero__name {
+  display: inline-block;
+}
+
+/* Ten hien len bang cach phong nhe tu 0.94 - dung transform nen khong dam
+   voi name-shimmer (background-position) va name-glow (filter). */
+@keyframes name-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Cac dong phu troi len theo thu tu, cham hon ten mot chut */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero__eyebrow {
+  animation: hero-rise 0.9s ease 0.1s both;
+}
+
+.hero__ornament {
+  animation: hero-rise 0.9s ease 0.75s both;
+}
+
+.hero__date {
+  animation: hero-rise 0.9s ease 0.95s both;
+}
+
+.countdown {
+  animation: hero-rise 0.9s ease 1.15s both;
+}
+
+.hero__amp {
+  display: inline-block;
+  margin: 0 14px;
+}
+
+/* Vạch ngang - viên kim cương - vạch ngang */
+.hero__ornament {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 14px 0 20px;
+}
+
+.hero__ornament-line {
+  width: 72px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9));
+}
+
+.hero__ornament-line:last-child {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), transparent);
+}
+
+.hero__ornament-gem {
+  color: var(--white);
+  filter: drop-shadow(0 1px 3px rgba(8, 24, 40, 0.7));
+  font-size: 0.6rem;
+  line-height: 1;
+}
+
+.hero__date {
+  position: relative;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  /* Cung font voi dong SAVE THE DATE ngay tren */
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 34px;
+  color: var(--white);
+  text-shadow:
+    0 1px 3px rgba(8, 24, 40, 0.8),
+    0 2px 16px rgba(8, 24, 40, 0.6);
+}
+
+/* Sóng trắng nối hero xuống phần nội dung */
+.hero__wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 78px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__wave::before {
+  content: "";
+  position: absolute;
+  left: -14%;
+  right: -14%;
+  bottom: -34px;
+  height: 108px;
+  border-radius: 50% 50% 0 0;
+  background: var(--blue-mist);
+}
+
+.countdown {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.countdown__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  padding: 16px 8px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    0 14px 30px -16px rgba(34, 64, 92, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.countdown__value {
+  font-family: var(--font-body);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--blue-deep);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.countdown__label {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-deep);
+  opacity: 0.68;
+  margin-top: 8px;
+}
+
+/* Ghi du 2 class de thang .section o duoi - cung do uu tien thi cai
+   dinh nghia sau se thang, ma .section nam sau trong file. */
+.section.envelope-section {
+  max-width: none;
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+.section .envelope-section {
+  max-width: auto;
+}
+
+/* ===== Phong bì mở ===== */
+.envelope {
+  /* Bốn nấc màu từ sáng tới thẫm, dùng chung cho mọi mảng của phong bì.
+     Muốn đổi sang tông khác thì chỉ sửa bốn dòng này. */
+  --env-light: #b3d6ef;
+  --env-mid: #7aa9cf;
+  --env-dark: #4e83ac;
+  --env-deep: #35617f;
+  --env-pocket-top: #244a69;
+  --env-pocket-bottom: #4a7ca3;
+  --seal-outer: #1e415c;
+  --seal-inner: #4a7ca3;
+  --seal-rim: #8fbcdb;
+  --seal-heart: #e7f3fb;
+
+  position: relative;
+  width: min(480px, 100%);
+  margin: 0 auto;
+}
+
+.envelope__stack {
+  position: relative;
+  aspect-ratio: 4 / 3;
+}
+
+/* Bóng đổ mềm dưới đáy, cho phong bì cảm giác đặt trên mặt phẳng */
+.envelope__shadow {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: -2%;
+  height: 12%;
+  border-radius: 50%;
+  background: rgba(34, 64, 92, 0.34);
+  filter: blur(18px);
+}
+
+/* Lòng phong bì thò ra phía sau ảnh, tối hơn hẳn mặt trước */
+.envelope__pocket {
+  position: absolute;
+  left: 3.5%;
+  right: 3.5%;
+  top: 26%;
+  bottom: 2%;
+  border-radius: 3px;
+  background: linear-gradient(
+    180deg,
+    var(--env-pocket-top) 0%,
+    var(--env-pocket-bottom) 100%
+  );
+  box-shadow: inset 0 10px 22px -6px rgba(0, 0, 0, 0.45);
+}
+
+/* Ảnh nhô lên khỏi miệng phong bì, viền trắng kiểu ảnh in */
+.envelope__photo {
+  position: absolute;
+  object-fit: cover;
+  object-position: center 22%;
+  background: var(--white);
+  border: 7px solid var(--white);
+  border-radius: 2px;
+  box-shadow: 0 16px 34px -14px rgba(34, 64, 92, 0.6);
+}
+
+.envelope__photo--a {
+  left: 8%;
+  top: 10%;
+  width: 43%;
+  aspect-ratio: 4 / 5;
+  transform: rotate(-10deg);
+}
+
+.envelope__photo--b {
+  right: 6%;
+  top: 2%;
+  width: 49%;
+  aspect-ratio: 4 / 5;
+  transform: rotate(4deg);
+}
+
+.envelope__front {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 10px 20px rgba(34, 64, 92, 0.28));
+}
+
+/* Con dấu đặt đúng chỗ hai vạt gập chụm lại */
+.envelope__seal {
+  position: absolute;
+  left: 50%;
+  top: 79%;
+  width: 17%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 5px 10px rgba(12, 32, 48, 0.55));
+}
+
+.envelope__seal svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===== Mở đầu phần Album: ảnh nghiêng xen chữ ===== */
+.section.album-intro-section {
+  max-width: none;
+  padding-bottom: 8px;
+}
+
+.album-intro {
+  max-width: 760px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 20px;
+  align-items: center;
+}
+
+.album-intro__cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.album-intro__cell--title {
+  align-items: flex-start;
+  text-align: left;
+  padding-left: 8px;
+}
+
+.album-intro__cell--end {
+  align-items: flex-start;
+  padding-left: 24px;
+}
+
+.album-intro__the {
+  font-family: var(--font-script);
+  font-size: clamp(2.4rem, 8vw, 3.6rem);
+  line-height: 1;
+  color: var(--blue-deep);
+  /* nhích sang phải để nét xoắn của chữ viết tay đè lên chữ in hoa bên dưới */
+  margin-left: 0.35em;
+}
+
+.album-intro__word {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 5.2vw, 2.3rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.15;
+  color: var(--blue-deep);
+  margin-top: -0.15em;
+}
+
+.album-intro__photo {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 8px solid var(--white);
+  box-shadow: 0 22px 48px -24px rgba(34, 64, 92, 0.6);
+  aspect-ratio: 4 / 5;
+}
+
+.album-intro__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  display: block;
+}
+
+/* Hai tấm nghiêng ngược chiều nhau cho ra dáng ảnh rời xếp chồng */
+.album-intro__photo--a {
+  transform: rotate(3deg);
+}
+
+.album-intro__photo--b {
+  transform: rotate(-3deg);
+}
+
+@media (max-width: 700px) {
+  .album-intro {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    max-width: 320px;
+  }
+
+  .album-intro__cell--title,
+  .album-intro__cell--end {
+    align-items: center;
+    text-align: center;
+    padding-left: 0;
+  }
+}
+
+/* ===== Dải ruy băng trang trí nền ===== */
+.ribbons {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ribbons svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Hai biến thể lật ngược và lệch nhau, để hai phần cạnh nhau không giống hệt */
+.ribbons--b svg {
+  transform: scaleX(-1) translateY(6%);
+}
+
+/* Nội dung phải nằm trên lớp ruy băng */
+.envelope-section > *:not(.ribbons),
+.couple > *:not(.ribbons) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Sections ===== */
+.section {
+  position: relative;
+  /* 'auto' KHONG phai gia tri hop le cua max-width - trinh duyet vut ca dong,
+     khien moi section rong het co. Muon bo gioi han thi dung 'none'. */
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 56px 24px;
+  text-align: center;
+}
+.section rsvp {
+  max-width: 720px;
+}
+
+/* ===== Mây + sóng trang trí đầu mỗi phần ===== */
+.deco {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.deco__svg {
+  width: 150px;
+  height: auto;
+  overflow: visible;
+}
+
+.deco__cloud {
+  filter: drop-shadow(0 4px 10px rgba(61, 108, 148, 0.28));
+  transform-origin: 71px 20px;
+  animation: cloud-bob 6s ease-in-out infinite;
+}
+
+@keyframes cloud-bob {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.03);
+  }
+}
+
+/* Sóng trôi ngang - dùng nét đứt dài rồi kéo lệch dần */
+.deco__wave {
+  stroke-dasharray: 6 5;
+  animation: wave-drift 3.2s linear infinite;
+}
+
+.deco__wave--2 {
+  animation-duration: 4.4s;
+  animation-direction: reverse;
+}
+
+@keyframes wave-drift {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+.section__title {
+  font-size: 2.2rem;
+  margin-bottom: 24px;
+  position: relative;
+  display: inline-block;
+}
+
+.section__title::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 2px;
+  margin: 12px auto 0;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--blue) 50%,
+    transparent 100%
+  );
+}
+
+/* ===== Invite details ===== */
+.invite__text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+/* Luoi 3 cot thay vi flex-wrap: voi flex, ba cot cong lai rong hon khung
+   nen bi xuong dong va trai tim dat sang mot ben. Luoi thi trai tim luon
+   nam dung o cot giua, khong bao gio lech. */
+.invite__families {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(860px, calc(100vw - 40px));
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  justify-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.invite__family {
+  width: 100%;
+  max-width: 340px;
+}
+
+/* Ảnh đại diện nhà trai / nhà gái */
+.invite__family-photo {
+  width: min(300px, 100%);
+  aspect-ratio: 4 / 3;
+  margin: 0 auto 14px;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 5px solid var(--white);
+  box-shadow: 0 16px 34px -18px rgba(34, 64, 92, 0.55);
+}
+
+.invite__family-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  display: block;
+}
+
+.invite__family h3 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+}
+
+.invite__family p {
+  line-height: 1.7;
+}
+
+.invite__address {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--blue-deep);
+  opacity: 0.8;
+}
+
+.invite__divider {
+  /* Luoi cha da lo can giua bang justify-items, o day chi can can theo
+     chieu doc cho ngang hang voi hai cot ben canh */
+  align-self: center;
+  width: 34px;
+  line-height: 0;
+  animation: heart-beat 1.6s ease-in-out infinite;
+}
+
+.invite__divider svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(34, 64, 92, 0.3));
+}
+
+/* Nhip doi: dap manh roi dap nhe, giong nhip tim that */
+@keyframes heart-beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.18);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.1);
+  }
+  60% {
+    transform: scale(1);
+  }
+}
+
+/* Kéo rộng ra ngoài khung 720px của .section */
+
+/* ===== Buổi lễ và bản đồ: gộp chung một thẻ ===== */
+.section.map-section {
+  max-width: none;
+}
+
+.map-section__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.map-section__card {
+  flex: 1 1 320px;
+  max-width: 860px;
+  padding: 32px 28px 28px;
+  border: 1px solid var(--blue-soft);
+  border-radius: 18px;
+  background: var(--white);
+  box-shadow: 0 18px 44px -22px rgba(34, 64, 92, 0.5);
+}
+
+.map-section__name {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.map-section__time,
+.map-section__venue {
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.map-section__venue {
+  margin-bottom: 20px;
+}
+
+.map-section__frame {
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--blue-soft);
+  box-shadow: 0 12px 30px -18px rgba(34, 64, 92, 0.5);
+  /* line-height 0 de khong co khe trang duoi iframe */
+  line-height: 0;
+}
+
+.map-section__frame iframe {
+  display: block;
+  width: 100%;
+  height: 400px;
+  border: 0;
+}
+
+.map-section__link {
+  display: inline-block;
+  margin-top: 18px;
+  font-weight: 600;
+  color: var(--blue-deep);
+  text-decoration: none;
+  border-bottom: 1px solid var(--blue);
+}
+
+.map-section__link:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+@media (max-width: 480px) {
+  .map-section__card {
+    padding: 24px 18px 22px;
+  }
+
+  .map-section__frame iframe {
+    height: 300px;
+  }
+}
+
+/* ===== Gallery ===== */
+.gallery {
+  max-width: none;
+  background: linear-gradient(180deg, var(--white) 0%, var(--blue-pale) 100%);
+}
+
+/* Nội dung album phải nằm trên lớp bong bóng */
+.gallery .deco,
+.gallery .section__title {
+  position: relative;
+  z-index: 1;
+}
+
+.gallery__viewer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Vạch chạy dưới ảnh, cho biết bao giờ sang tấm kế */
+.gallery__progress {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+  animation: gallery-progress 5s linear both;
+}
+
+.gallery__progress.is-paused {
+  animation-play-state: paused;
+}
+
+@keyframes gallery-progress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Ảnh lớn đang xem */
+.gallery__feature {
+  position: relative;
+  z-index: 1;
+  max-width: 420px;
+  margin: 0 auto 22px;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 6px solid var(--white);
+  box-shadow: 0 24px 54px -24px rgba(34, 64, 92, 0.6);
+}
+
+/* Hai lớp chồng khít nhau. Ảnh mới hiện dần đè lên ảnh cũ đang mờ đi,
+   nên không bao giờ thấy khoảng trống giữa hai tấm. */
+.gallery__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery__layer--in {
+  animation: layer-in 0.6s ease both;
+}
+
+.gallery__layer--out {
+  animation: layer-out 0.6s ease both;
+}
+
+@keyframes layer-in {
+  from {
+    opacity: 0;
+    transform: scale(1.015);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes layer-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Dải phim thu nhỏ - hai mép có lỗ răng như phim nhựa */
+.gallery__strip {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 16px 12px;
+  border-radius: 6px;
+  background: var(--ink);
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gallery__strip::before,
+.gallery__strip::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 9px;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.92) 0 9px,
+    transparent 9px 20px
+  );
+}
+
+.gallery__strip::before {
+  top: 4px;
+}
+
+.gallery__strip::after {
+  bottom: 4px;
+}
+
+.gallery__thumb {
+  flex: 0 0 auto;
+  width: 78px;
+  height: 104px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  background: none;
+  opacity: 0.62;
+  transition:
+    opacity 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.gallery__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery__thumb:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.gallery__thumb.is-active {
+  opacity: 1;
+  border-color: var(--white);
+  transform: translateY(-2px);
+}
+
+.gallery__thumb:focus-visible {
+  outline: 2px solid var(--blue-soft);
+  outline-offset: 2px;
+}
+
+/* ===== Dòng ghi người thiết kế =====
+   Nam trong phan Thank you, de chu trang nhat de khong tranh cho voi loi cam on. */
+.credit {
+  margin-top: 18px;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--white);
+  opacity: 0.6;
+  text-shadow: 0 1px 3px rgba(8, 24, 40, 0.7);
+  transition: opacity 0.25s ease;
+}
+
+.credit:hover {
+  opacity: 0.9;
+}
+
+.credit__link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+/* ===== Hiện dần khi cuộn tới ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(44px);
+  transition:
+    opacity 0.85s ease,
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal--left {
+  transform: translateX(-64px);
+}
+
+.reveal--right {
+  transform: translateX(64px);
+}
+
+.reveal.is-shown {
+  opacity: 1;
+  /* none chứ không phải translateY(0) - để không còn containing block sau khi chạy xong */
+  transform: none;
+}
+
+/* ===== Cô dâu và chú rể ===== */
+.couple {
+  max-width: none;
+  background: linear-gradient(180deg, var(--blue-mist) 0%, var(--white) 100%);
+}
+
+.couple__list {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+.couple__row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  text-align: left;
+}
+
+/* So le: chú rể lệch trái, cô dâu lệch phải và đảo thứ tự ảnh/chữ */
+.couple__row--groom {
+  margin-right: auto;
+}
+
+.couple__row--bride {
+  flex-direction: row-reverse;
+  margin-left: auto;
+  text-align: right;
+}
+
+.couple__photo {
+  flex: 0 0 auto;
+  width: 235px;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 999px 999px 12px 12px;
+  border: 5px solid var(--white);
+  box-shadow: 0 20px 44px -22px rgba(34, 64, 92, 0.55);
+}
+
+.couple__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Keo khung cat len phia tren: anh toan than ma cat giua se chi con than nguoi */
+  object-position: center 18%;
+  display: block;
+}
+
+.couple__label {
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--blue-deep);
+  opacity: 0.8;
+}
+
+.couple__name {
+  margin-top: 6px;
+  font-family: var(--font-script);
+  font-size: 3rem;
+  line-height: 1.2;
+  color: var(--blue-deep);
+}
+
+.couple__rule {
+  display: block;
+  width: 72px;
+  height: 1px;
+  margin-top: 12px;
+  background: linear-gradient(90deg, var(--blue), transparent);
+}
+
+.couple__row--bride .couple__rule {
+  margin-left: auto;
+  background: linear-gradient(90deg, transparent, var(--blue));
+}
+
+/* ===== Sổ lưu bút ===== */
+.wishes {
+  max-width: none;
+  background: linear-gradient(180deg, var(--blue-pale) 0%, var(--white) 100%);
+}
+
+.wishes__subtitle {
+  color: var(--blue-deep);
+  opacity: 0.75;
+  font-size: 0.95rem;
+  margin-bottom: 28px;
+}
+
+.wishes__empty {
+  color: var(--blue-deep);
+  opacity: 0.7;
+  font-style: italic;
+  padding: 24px 0;
+}
+
+/* Khung cuộn: hiện khoảng 3 lời chúc, lướt xuống để xem tiếp.
+   Dùng cả chiều cao theo svh lẫn giới hạn px để trên màn hình thấp
+   khung không chiếm gần hết trang. */
+.wishes__grid {
+  position: relative;
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: min(560px, 64svh);
+  overflow-y: auto;
+  padding: 2px 4px 18px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--blue-soft) transparent;
+  -webkit-overflow-scrolling: touch;
+  /* Mờ dần ở mép dưới, ra hiệu còn nội dung phía dưới */
+  mask-image: linear-gradient(
+    180deg,
+    #000 0%,
+    #000 88%,
+    rgba(0, 0, 0, 0.15) 100%
+  );
+}
+
+.wishes__grid:focus-visible {
+  outline: 2px solid var(--blue-deep);
+  outline-offset: 4px;
+  border-radius: 10px;
+}
+
+.wishes__grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.wishes__grid::-webkit-scrollbar-thumb {
+  background: var(--blue-soft);
+  border-radius: 999px;
+}
+
+.wishes__grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.wishes__card {
+  position: relative;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 24px 22px 20px;
+  text-align: left;
+  border: 1px solid var(--blue-soft);
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: 0 12px 30px -20px rgba(34, 64, 92, 0.55);
+  animation: wish-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes wish-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.wishes__quote {
+  position: absolute;
+  top: 4px;
+  left: 18px;
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  line-height: 1;
+  color: var(--blue-soft);
+  opacity: 0.45;
+}
+
+.wishes__message {
+  position: relative;
+  padding-top: 16px;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: 14px;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.wishes__name {
+  font-family: var(--font-script);
+  font-size: 1.5rem;
+  color: var(--blue-deep);
+  text-align: right;
+}
+
+.wishes__name::before {
+  content: "— ";
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--blue);
+}
+
+/* ===== RSVP ===== */
+.rsvp__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.rsvp__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--blue-deep);
+}
+
+.rsvp__field input,
+.rsvp__field select,
+.rsvp__field textarea {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 11px 13px;
+  border: 1px solid var(--blue-soft);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--ink);
+  font-weight: normal;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.rsvp__field input:focus,
+.rsvp__field select:focus,
+.rsvp__field textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(127, 176, 212, 0.3);
+}
+
+.rsvp__submit {
+  align-self: center;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue) 100%);
+  color: var(--white);
+  cursor: pointer;
+  box-shadow: 0 12px 26px -12px rgba(34, 64, 92, 0.7);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+.rsvp__submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 18px 34px -14px rgba(34, 64, 92, 0.75);
+}
+
+.rsvp__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rsvp__error {
+  text-align: center;
+  color: #b4453f;
+  font-weight: 600;
+}
+
+.rsvp__thanks {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+/* ===== Lời cảm ơn cuối thiệp ===== */
+.thankyou {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background: var(--blue-mist);
+}
+
+.thankyou__card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+
+.thankyou__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.thankyou__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(34, 64, 92, 0.12) 0%,
+    rgba(34, 64, 92, 0) 34%,
+    rgba(34, 64, 92, 0.55) 64%,
+    rgba(34, 64, 92, 0.92) 100%
+  );
+}
+
+.thankyou__overlay {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+  padding: 0 26px 42px;
+}
+
+.thankyou__title {
+  font-family: var(--font-script);
+  font-size: clamp(3rem, 11vw, 4.6rem);
+  line-height: 1.1;
+  color: var(--white);
+  text-shadow: 0 2px 22px rgba(0, 0, 0, 0.6);
+}
+
+.thankyou__note {
+  max-width: 460px;
+  margin: 14px auto 0;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--white);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+}
+
+/* Máy tính: thu ảnh về khung dọc đặt giữa, giống cách xử lý ảnh bìa */
+@media (min-width: 900px) {
+  .thankyou {
+    padding: 40px 28px 56px;
+  }
+
+  .thankyou__card {
+    width: auto;
+    height: min(80svh, 720px);
+    aspect-ratio: 3 / 4;
+    border-radius: 12px;
+    border: 8px solid var(--white);
+    box-shadow: 0 30px 68px -30px rgba(34, 64, 92, 0.6);
+  }
+}
+
+.rings-mark {
+  display: block;
+  width: 78px;
+  height: auto;
+  margin: 0 auto;
+  color: var(--blue);
+}
+
+.rings-mark--cover {
+  margin-bottom: 18px;
+  filter: drop-shadow(0 2px 6px rgba(255, 255, 255, 0.9));
+}
+
+@media (max-width: 480px) {
+  .lang {
+    top: 14px;
+    left: 14px;
+  }
+
+  .lang__thumb,
+  .lang__btn {
+    width: 42px;
+    height: 30px;
+  }
+
+  .music {
+    left: 14px;
+    bottom: 14px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .cover__names {
+    font-size: 2.4rem;
+  }
+
+  .cover__frame {
+    padding: 48px 24px;
+  }
+
+  .hero {
+    padding: 60px 20px 80px;
+  }
+
+  .hero__names {
+    font-size: 2.6rem;
+  }
+
+  .hero__eyebrow::before,
+  .hero__eyebrow::after {
+    width: 28px;
+  }
+
+  .hero__ornament-line {
+    width: 44px;
+  }
+
+  .hero__date {
+    font-size: 1.25rem;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+  }
+
+  .countdown {
+    gap: 10px;
+  }
+
+  .countdown__item {
+    width: 72px;
+    padding: 13px 6px 11px;
+  }
+
+  .countdown__value {
+    font-size: 1.85rem;
+  }
+
+  .deco__svg {
+    width: 120px;
+  }
+
+  .wishes__grid {
+    max-height: min(480px, 62svh);
+  }
+
+  /* Điện thoại: xếp dọc, ảnh trên chữ dưới, cả hai cùng căn giữa */
+  .couple__row,
+  .couple__row--bride {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .couple__photo {
+    width: 210px;
+  }
+
+  .couple__name {
+    font-size: 2.4rem;
+  }
+
+  .couple__rule,
+  .couple__row--bride .couple__rule {
+    margin-left: auto;
+    margin-right: auto;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent);
+  }
+
+  .invite__families {
+    grid-template-columns: 1fr;
+  }
+
+  .invite__divider {
+    width: 30px;
+    margin: 4px auto;
+  }
+}
