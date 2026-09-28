@@ -1,18 +1,20 @@
 /* Dia chi Google Apps Script nhan xac nhan tham du va tra ve loi chuc.
+   Bang tinh: "Xac nhan tham du - Dam cuoi" tren Google Drive.
+   Ma nguon: repo Dartcode52-server, file google-sheet/Code.gs
 
-   Khai bao o hai noi:
+   Duong dan nay von cong khai (khach nao mo thiep cung tai ve), nen ghi
+   thang vao day - khong can khai bao gi tren GitHub.
 
-   1. Khi chay tren may minh  ->  tao file  .env.local  o thu muc nay:
-        VITE_API_URL=https://script.google.com/macros/s/..../exec
+   Muon thu voi server tren may thi tao file  .env.local  o thu muc nay:
+        VITE_API_URL=http://localhost:4000
 
-   2. Khi chay tren GitHub Pages  ->  GitHub > Settings >
-        Secrets and variables > Actions > Variables > New variable
-        Ten:    VITE_API_URL
-        Gia tri: cung duong dan tren
+   Neu sau nay trien khai lai Apps Script bang "Ban trien khai moi" thi
+   duong dan se doi -> sua lai dong duoi. Con "Quan ly ban trien khai >
+   Phien ban moi" thi giu nguyen duong dan, khong phai sua. */
+const GOOGLE_SHEETS_URL =
+  'https://script.google.com/macros/s/AKfycbwd5pH5UG1zK0SuTpOOFaZ_rKIJ1F5wrc-d4GGOKq0i-oHF8NDj_nnsGrGe685eNpWA/exec'
 
-   De trong cung khong sao: phan Xac Nhan Tham Du va So Luu But se tu an,
-   thiep van chay binh thuong, khach khong thay loi nao. */
-export const API_URL = import.meta.env.VITE_API_URL || ''
+export const API_URL = import.meta.env.VITE_API_URL || GOOGLE_SHEETS_URL
 
-/* Dung de an hai phan do khi chua khai bao dia chi */
+/* Dung de an So Luu But khi khong co dia chi */
 export const CO_MAY_CHU = Boolean(API_URL)
