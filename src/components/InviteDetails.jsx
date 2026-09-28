@@ -1,4 +1,5 @@
 import SectionDeco from './SectionDeco'
+import { AnhPhongTo } from "./PhotoZoom"
 
 function InviteDetails({ text, groomPhoto, bridePhoto }) {
   return (
@@ -16,7 +17,7 @@ function InviteDetails({ text, groomPhoto, bridePhoto }) {
         <div className="invite__family">
           {groomPhoto && (
             <div className="invite__family-photo">
-              <img src={groomPhoto} alt={text.groomLabel} loading="lazy" />
+              <AnhPhongTo src={groomPhoto} alt={text.groomLabel} loading="lazy" />
             </div>
           )}
           <h3>{text.groomLabel}</h3>
@@ -43,7 +44,7 @@ function InviteDetails({ text, groomPhoto, bridePhoto }) {
         <div className="invite__family">
           {bridePhoto && (
             <div className="invite__family-photo">
-              <img src={bridePhoto} alt={text.brideLabel} loading="lazy" />
+              <AnhPhongTo src={bridePhoto} alt={text.brideLabel} loading="lazy" />
             </div>
           )}
           <h3>{text.brideLabel}</h3>

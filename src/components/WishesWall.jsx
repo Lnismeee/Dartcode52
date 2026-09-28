@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { API_BASE_URL } from '../config'
+import { CO_MAY_CHU } from '../config'
+import { layLoiChuc } from '../api'
 import SectionDeco from './SectionDeco'
 
 function WishesWall({ text, refreshKey }) {
@@ -7,15 +8,12 @@ function WishesWall({ text, refreshKey }) {
   const [status, setStatus] = useState('loading')
 
   useEffect(() => {
+    if (!CO_MAY_CHU) return
     let cancelled = false
 
-    // /api/wishes chỉ trả tên + lời chúc. Không dùng /api/rsvp vì endpoint đó
-    // trả cả trạng thái tham dự và số khách - không nên gửi xuống trang công khai.
-    fetch(`${API_BASE_URL}/api/wishes`)
-      .then((response) => {
-        if (!response.ok) throw new Error('Lỗi tải dữ liệu')
-        return response.json()
-      })
+    // Apps Script chỉ trả tên + lời chúc, không trả trạng thái tham dự hay
+    // số khách - đó là dữ liệu ai mở thiệp cũng đọc được.
+    layLoiChuc()
       .then((data) => {
         if (cancelled) return
         setWishes(data.slice().reverse())
@@ -30,8 +28,8 @@ function WishesWall({ text, refreshKey }) {
     }
   }, [refreshKey])
 
-  // Server chưa chạy thì ẩn hẳn phần này, không bày lỗi ra thiệp cưới
-  if (status === 'error') return null
+  // Chưa khai báo máy chủ, hoặc gọi lỗi -> ẩn hẳn, không bày lỗi ra thiệp cưới
+  if (!CO_MAY_CHU || status === 'error') return null
 
   const countLabel = wishes.length === 1 ? text.countOne : text.countMany
 

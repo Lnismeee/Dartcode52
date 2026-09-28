@@ -8,7 +8,7 @@ export const LANGUAGES = [
 
 export const CONTENT = {
   vi: {
-    htmlTitle: "Thiệp Cưới - Lã Ngọc & Lan Hương",
+    htmlTitle: "Thiệp Cưới - Lan Hương & Lã Ngọc",
     dateLabel: "17 . 10 . 2026",
     cover: {
       eyebrow: "Trân trọng kính mời",
@@ -42,14 +42,14 @@ export const CONTENT = {
       brideFamily: {
         father: "Ông: Nguyễn Đình Phương",
         mother: "Bà: Dương Thị Thanh",
-        address: "Xóm Cầu Gỗ, Xã Phú Bình, Thành phố Thái Nguyên",
+        address: "Xóm Cầu Gỗ, Xã Phú Bình, Tỉnh Thái Nguyên",
       },
       events: [
         {
           title: "Lễ Vu Quy",
           time: "Thứ Bảy, 17/10/2026 - 16:00",
           venue:
-            "Tư gia nhà gái - Xóm Cầu Gỗ, Xã Phú Bình, Thành phố Thái Nguyên",
+            "Tư gia nhà gái - Xóm Cầu Gỗ, Xã Phú Bình, Tỉnh Thái Nguyên",
         },
       ],
       mapTitle: "Địa chỉ dự tiệc",
@@ -106,8 +106,8 @@ export const CONTENT = {
   },
 
   en: {
-    htmlTitle: "Wedding Invitation - La Ngoc & Lan Huong",
-    dateLabel: "31 . OCT . 2026",
+    htmlTitle: "Wedding Invitation - Lan Huong & La Ngoc",
+    dateLabel: "17 . OCT . 2026",
     cover: {
       eyebrow: "You are cordially invited",
       button: "Open Invitation",
@@ -140,14 +140,14 @@ export const CONTENT = {
       brideFamily: {
         father: "Mr. Nguyen Dinh Phuong",
         mother: "Mrs. Duong Thi Thanh",
-        address: "Cau Go Hamlet, Phu Binh Commune, Thai Nguyen City",
+        address: "Cau Go Hamlet, Phu Binh Commune, Thai Nguyen Province",
       },
       events: [
         {
-          title: "Wedding Ceremony",
-          time: "Saturday, 31 October 2026 - 3:00 PM",
+          title: "Vu Quy Ceremony",
+          time: "Saturday, 17 October 2026 - 4:00 PM",
           venue:
-            "Groom's family home - Lieu Tri Hamlet, Quang Minh Commune, Hanoi",
+            "Bride's family home - Cau Go Hamlet, Phu Binh Commune, Thai Nguyen Province",
         },
       ],
       mapTitle: "Directions",

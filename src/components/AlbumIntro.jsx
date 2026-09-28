@@ -1,7 +1,8 @@
+import { AnhPhongTo } from "./PhotoZoom"
 /* Mở đầu phần Album: hai tấm ảnh nghiêng xen kẽ với chữ,
    xếp so le theo đường chéo - chữ trên trái, ảnh trên phải,
    ảnh dưới trái, chữ dưới phải. */
-function AlbumIntro({ photos, text }) {
+function AlbumIntro({ photos, text, photoAlt = "" }) {
   const [first, second] = photos
 
   return (
@@ -14,7 +15,7 @@ function AlbumIntro({ photos, text }) {
       <div className="album-intro__cell">
         {first && (
           <figure className="album-intro__photo album-intro__photo--a">
-            <img src={first} alt="" loading="lazy" />
+            <AnhPhongTo src={first} alt={photoAlt} loading="lazy" />
           </figure>
         )}
       </div>
@@ -22,7 +23,7 @@ function AlbumIntro({ photos, text }) {
       <div className="album-intro__cell">
         {second && (
           <figure className="album-intro__photo album-intro__photo--b">
-            <img src={second} alt="" loading="lazy" />
+            <AnhPhongTo src={second} alt={photoAlt} loading="lazy" />
           </figure>
         )}
       </div>

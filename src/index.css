@@ -14,7 +14,7 @@
      Không sửa thì font mới không được tải, chữ rơi về Times New Roman. */
   --font-body:
     "Be Vietnam Pro", system-ui, sans-serif; /* chữ thường - thiết kế riêng cho tiếng Việt */
-  --font-display: "Cormorant Garamond", serif; /* tiêu đề + chữ số */
+  --font-display: "Playfair Display", serif; /* tiêu đề + chữ số */
   --font-script: "Great Vibes", cursive; /* tên cô dâu chú rể */
 
   font: 17px/1.6 var(--font-body);

@@ -15,6 +15,7 @@ import EventMap from "./components/EventMap";
 import AlbumIntro from "./components/AlbumIntro";
 import ThankYou from "./components/ThankYou";
 import Ribbons from "./components/Ribbons";
+import { PhotoZoomProvider } from "./components/PhotoZoom";
 import { CONTENT } from "./i18n";
 import "./App.css";
 
@@ -169,7 +170,8 @@ function App() {
   }));
 
   return (
-    <div className="app">
+    <PhotoZoomProvider>
+      <div className="app">
       {/* MOT lop bong bong duy nhat cho ca trang, ghim theo khung nhin nen
           bong bong noi lien mach tu duoi len tren khong bi cat theo tung phan.
           Phai la con truc tiep cua .app: dat trong phan tu co transform
@@ -202,10 +204,11 @@ function App() {
             </div>
 
             <p className="hero__eyebrow">{t.hero.eyebrow}</p>
+            {/* Co dau dung truoc - theo yeu cau trong ban nhan xet */}
             <h1 className="hero__names">
-              <span className="hero__name">{WEDDING_INFO.groom}</span>
-              <span className="hero__amp">&amp;</span>
               <span className="hero__name">{WEDDING_INFO.bride}</span>
+              <span className="hero__amp">&amp;</span>
+              <span className="hero__name">{WEDDING_INFO.groom}</span>
             </h1>
 
             <div className="hero__ornament" aria-hidden="true">
@@ -227,7 +230,7 @@ function App() {
             <Reveal>
               <section className="section envelope-section">
                 <Ribbons variant="a" />
-                <Envelope photos={ENVELOPE_PHOTOS} />
+                <Envelope photos={ENVELOPE_PHOTOS} photoAlt={t.gallery.photoAlt} />
               </section>
             </Reveal>
           )}
@@ -253,7 +256,11 @@ function App() {
           {ALBUM_INTRO_PHOTOS.length > 0 && (
             <Reveal>
               <section className="section album-intro-section">
-                <AlbumIntro photos={ALBUM_INTRO_PHOTOS} text={t.albumIntro} />
+                <AlbumIntro
+                  photos={ALBUM_INTRO_PHOTOS}
+                  text={t.albumIntro}
+                  photoAlt={t.gallery.photoAlt}
+                />
               </section>
             </Reveal>
           )}
@@ -294,7 +301,8 @@ function App() {
           </Reveal>
         </main>
       )}
-    </div>
+      </div>
+    </PhotoZoomProvider>
   );
 }
 

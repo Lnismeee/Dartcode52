@@ -447,26 +447,48 @@
   justify-content: center;
 }
 
+/* Hai mui ten chum vao nut tu hai phia, day han ra ngoai de khong de len chu */
 .cover__arrow {
   position: absolute;
-  /* Neo vao mep trai nut, day han ra ngoai de khong de len chu */
-  right: calc(100% + 4px);
   bottom: -6px;
   width: 84px;
   color: var(--white);
   pointer-events: none;
   filter: drop-shadow(0 2px 5px rgba(8, 24, 40, 0.7));
-  animation: arrow-nudge 1.5s ease-in-out infinite;
+  animation: 1.5s ease-in-out infinite;
+}
+
+.cover__arrow--trai {
+  right: calc(100% + 4px);
+  animation-name: arrow-nudge-trai;
+}
+
+/* Ban phai dung chung hinh ve, chi lat nguoc lai.
+   Phep lat phai nam trong chinh keyframes: neu de rieng o transform thi
+   animation ghi de mat, mui ten se quay nguoc ra ngoai. */
+.cover__arrow--phai {
+  left: calc(100% + 4px);
+  animation-name: arrow-nudge-phai;
 }
 
 /* Nhích tới lui theo hướng mũi tên đang chỉ, mắt bị hút theo chuyển động */
-@keyframes arrow-nudge {
+@keyframes arrow-nudge-trai {
   0%,
   100% {
     transform: translate(0, 0);
   }
   50% {
     transform: translate(7px, -5px);
+  }
+}
+
+@keyframes arrow-nudge-phai {
+  0%,
+  100% {
+    transform: scaleX(-1) translate(0, 0);
+  }
+  50% {
+    transform: scaleX(-1) translate(7px, -5px);
   }
 }
 
@@ -496,8 +518,13 @@
 @media (max-width: 420px) {
   .cover__arrow {
     width: 58px;
-    right: calc(100% - 2px);
     bottom: -2px;
+  }
+  .cover__arrow--trai {
+    right: calc(100% - 2px);
+  }
+  .cover__arrow--phai {
+    left: calc(100% - 2px);
   }
 }
 
@@ -1155,6 +1182,7 @@
 
 /* Bóng đổ mềm dưới đáy, cho phong bì cảm giác đặt trên mặt phẳng */
 .envelope__shadow {
+  pointer-events: none;
   position: absolute;
   left: 12%;
   right: 12%;
@@ -1167,18 +1195,21 @@
 
 /* Lòng phong bì thò ra phía sau ảnh, tối hơn hẳn mặt trước */
 .envelope__pocket {
+  pointer-events: none;
   position: absolute;
   left: 3.5%;
   right: 3.5%;
   top: 26%;
   bottom: 2%;
-  border-radius: 3px;
+  border-radius: 10px 10px 12px 12px;
   background: linear-gradient(
     180deg,
     var(--env-pocket-top) 0%,
     var(--env-pocket-bottom) 100%
   );
-  box-shadow: inset 0 10px 22px -6px rgba(0, 0, 0, 0.45);
+  /* Nhat bot va tai rong hon: mep toi sac lem lam long phong bi trong
+     nhu cai hop, khong ra chat giay. */
+  box-shadow: inset 0 14px 30px -8px rgba(0, 0, 0, 0.34);
 }
 
 /* Ảnh nhô lên khỏi miệng phong bì, viền trắng kiểu ảnh in */
@@ -1188,8 +1219,8 @@
   object-position: center 22%;
   background: var(--white);
   border: 7px solid var(--white);
-  border-radius: 2px;
-  box-shadow: 0 16px 34px -14px rgba(34, 64, 92, 0.6);
+  border-radius: 4px;
+  box-shadow: 0 18px 38px -16px rgba(34, 64, 92, 0.48);
 }
 
 .envelope__photo--a {
@@ -1213,11 +1244,17 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 10px 20px rgba(34, 64, 92, 0.28));
+
+  /* The <svg> nay phu kin ca khung phong bi nen no nuot het cu bam, ke ca o
+     nhung cho hinh ve khong che toi - hai tam anh nam duoi thanh ra bam
+     khong an. No chi de nhin, khong can nhan chuot, nen cho xuyen qua. */
+  pointer-events: none;
+  filter: drop-shadow(0 12px 26px rgba(34, 64, 92, 0.22));
 }
 
 /* Con dấu đặt đúng chỗ hai vạt gập chụm lại */
 .envelope__seal {
+  pointer-events: none;
   position: absolute;
   left: 50%;
   top: 79%;
@@ -1492,9 +1529,22 @@
 
 .invite__address {
   font-style: italic;
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   color: var(--blue-deep);
   opacity: 0.8;
+
+  /* Dia chi dai, truoc day hay bi rot dung MOT chu xuong dong cuoi
+     ("... Thanh pho Ha / Noi") trong rat luom thuom.
+     balance chia deu chu cho cac dong nen khong con dong cut lui thui. */
+  text-wrap: balance;
+}
+
+/* Man hinh rong thi co du cho cho ca dia chi nam gon mot dong. */
+@media (min-width: 700px) {
+  .invite__address {
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
 }
 
 .invite__divider {
@@ -2313,5 +2363,117 @@
   .invite__divider {
     width: 30px;
     margin: 4px auto;
+  }
+}
+
+/* ============================================================
+   PHONG TO ANH  -  bam vao anh bat ky (tru album) de xem to
+   ============================================================ */
+
+/* Bao cho nguoi dung biet tam anh bam duoc */
+.anh-phong-to {
+  cursor: zoom-in;
+}
+
+.anh-phong-to:focus-visible {
+  outline: 3px solid var(--white);
+  outline-offset: 3px;
+}
+
+.zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+
+  background: rgba(14, 32, 48, 0.9);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  cursor: zoom-out;
+  animation: zoom-hien 0.22s ease-out;
+}
+
+.zoom__img {
+  /* Vua khung nhin theo ca hai chieu, khong bao gio tran ra ngoai */
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+
+  border-radius: 6px;
+  box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.7);
+  cursor: default;
+  animation: zoom-lon-dan 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.zoom__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.zoom__close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.zoom__close:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: rotate(90deg);
+}
+
+.zoom__close:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+@keyframes zoom-hien {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoom-lon-dan {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Ai chon giam chuyen dong trong he dieu hanh thi bo hieu ung phong */
+@media (prefers-reduced-motion: reduce) {
+  .zoom,
+  .zoom__img {
+    animation: none;
+  }
+  .zoom__close:hover {
+    transform: none;
   }
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { API_BASE_URL } from "../config";
+import { guiXacNhan } from "../api";
 import SectionDeco from "./SectionDeco";
 
 const initialForm = {
@@ -25,14 +25,7 @@ function RsvpForm({ text, onSubmitted }) {
     setError("");
     setSending(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/rsvp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (!response.ok) {
-        throw new Error("Gửi thất bại");
-      }
+      await guiXacNhan(form);
       setSubmitted(true);
       onSubmitted?.();
     } catch {

@@ -1,6 +1,7 @@
 import SectionDeco from "./SectionDeco";
 import Reveal from "./Reveal";
 import Ribbons from "./Ribbons";
+import { AnhPhongTo } from "./PhotoZoom"
 
 function Couple({ text, groomName, brideName, groomPhoto, bridePhoto }) {
   return (
@@ -14,7 +15,7 @@ function Couple({ text, groomName, brideName, groomPhoto, bridePhoto }) {
           <article className="couple__row couple__row--groom">
             {groomPhoto && (
               <div className="couple__photo">
-                <img src={groomPhoto} alt={groomName} loading="lazy" />
+                <AnhPhongTo src={groomPhoto} alt={groomName} loading="lazy" />
               </div>
             )}
             <div className="couple__info">
@@ -29,7 +30,7 @@ function Couple({ text, groomName, brideName, groomPhoto, bridePhoto }) {
           <article className="couple__row couple__row--bride">
             {bridePhoto && (
               <div className="couple__photo">
-                <img src={bridePhoto} alt={brideName} loading="lazy" />
+                <AnhPhongTo src={bridePhoto} alt={brideName} loading="lazy" />
               </div>
             )}
             <div className="couple__info">

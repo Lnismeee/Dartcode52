@@ -3,6 +3,34 @@ import RingsMark from './RingsMark'
 /* Hai kiểu bìa:
    - Có ảnh cưới  -> ảnh tràn màn hình, tên và ngày đè lên phía dưới
    - Chưa có ảnh  -> khung kính mờ trên nền xanh như trước */
+/* Mot mui ten cong co dau nhon. Ban ben phai dung chung hinh ve nay, chi lat
+   nguoc lai bang scaleX(-1) trong CSS nen khong phai ve them duong dan rieng. */
+function MuiTen({ ben }) {
+  return (
+    <svg
+      className={`cover__arrow cover__arrow--${ben}`}
+      viewBox="0 0 96 70"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M6 64 C18 50 34 34 62 22"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeDasharray="0 1 0"
+      />
+      <path
+        d="M62 22 L46 22 M62 22 L60 38"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 function Cover({ groom, bride, dateLabel, text, photo, onOpen }) {
   if (photo) {
     return (
@@ -22,38 +50,19 @@ function Cover({ groom, bride, dateLabel, text, photo, onOpen }) {
 
             <p className="cover__onphoto-eyebrow">{text.eyebrow}</p>
 
+            {/* Co dau dung truoc - theo yeu cau trong ban nhan xet */}
             <h1 className="cover__onphoto-names">
-              <span className="cover__onphoto-name">{groom}</span>
-              <span className="cover__onphoto-amp">&amp;</span>
               <span className="cover__onphoto-name">{bride}</span>
+              <span className="cover__onphoto-amp">&amp;</span>
+              <span className="cover__onphoto-name">{groom}</span>
             </h1>
 
             <p className="cover__onphoto-date">{dateLabel}</p>
 
             <div className="cover__cta">
-              {/* Mui ten cong chi vao nut. Dat ben trai vi nut nam sat day anh,
-                  khong con cho phia duoi. */}
-              <svg
-                className="cover__arrow"
-                viewBox="0 0 96 70"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M6 64 C18 50 34 34 62 22"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeDasharray="0 1 0"
-                />
-                <path
-                  d="M62 22 L46 22 M62 22 L60 38"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              {/* Hai mui ten cong chum vao nut tu hai phia. Dat hai ben chu
+                  khong dat phia duoi vi nut nam sat day anh, khong con cho. */}
+              <MuiTen ben="trai" />
 
               <button
                 type="button"
@@ -62,6 +71,8 @@ function Cover({ groom, bride, dateLabel, text, photo, onOpen }) {
               >
                 {text.button}
               </button>
+
+              <MuiTen ben="phai" />
             </div>
           </div>
         </div>
@@ -82,9 +93,9 @@ function Cover({ groom, bride, dateLabel, text, photo, onOpen }) {
 
         <p className="cover__eyebrow">{text.eyebrow}</p>
         <h1 className="cover__names">
-          <span className="cover__name">{groom}</span>
-          <span className="cover__amp">&amp;</span>
           <span className="cover__name">{bride}</span>
+          <span className="cover__amp">&amp;</span>
+          <span className="cover__name">{groom}</span>
         </h1>
         <div className="cover__flourish" aria-hidden="true">
           <span className="cover__flourish-line" />
