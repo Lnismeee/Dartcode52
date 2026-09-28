@@ -146,6 +146,8 @@ function App() {
   const [lang, setLang] = useState("vi");
   // Tăng lên mỗi khi có người gửi lời chúc, để sổ lưu bút tải lại
   const [wishesKey, setWishesKey] = useState(0);
+  // Loi chuc nguoi dung vua gui o phien nay, hien ngay khong cho tai lai
+  const [loiChucVuaGui, setLoiChucVuaGui] = useState(null);
 
   const handleOpen = useCallback(() => setStage("invitation"), []);
 
@@ -283,12 +285,19 @@ function App() {
           <Reveal>
             <RsvpForm
               text={t.rsvp}
-              onSubmitted={() => setWishesKey((key) => key + 1)}
+              onSubmitted={(loiChuc) => {
+                if (loiChuc) setLoiChucVuaGui(loiChuc);
+                setWishesKey((key) => key + 1);
+              }}
             />
           </Reveal>
 
           <Reveal>
-            <WishesWall text={t.wishes} refreshKey={wishesKey} />
+            <WishesWall
+              text={t.wishes}
+              refreshKey={wishesKey}
+              loiChucVuaGui={loiChucVuaGui}
+            />
           </Reveal>
 
           <Reveal>

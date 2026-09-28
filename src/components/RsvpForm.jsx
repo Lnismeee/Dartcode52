@@ -25,9 +25,21 @@ function RsvpForm({ text, onSubmitted }) {
     setError("");
     setSending(true);
     try {
-      await guiXacNhan(form);
+      const ketQua = await guiXacNhan(form);
       setSubmitted(true);
-      onSubmitted?.();
+
+      // Bao len tren kem chinh loi chuc vua gui, de So Luu But hien ngay
+      // ma khong phai cho doc lai tu bang tinh.
+      const loiChuc = form.message.trim();
+      onSubmitted?.(
+        loiChuc
+          ? {
+              id: ketQua?.id ?? "tam-" + Date.now(),
+              name: form.name.trim(),
+              message: loiChuc,
+            }
+          : null,
+      );
     } catch {
       setError(text.error);
     } finally {
