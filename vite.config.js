@@ -12,4 +12,9 @@ export default defineConfig({
 
      Doi ten repo thi phai sua dong nay theo. */
   base: '/Dartcode52/',
+
+  // Cong mac dinh 5173; neu cong cu chay thu cap cong khac qua bien PORT thi dung cong do.
+  server: {
+    port: Number(process.env.PORT) || 5173,
+  },
 })
